@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Hotel Details</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <div class="top-nav">
+        <a href="index.html" class="back-btn">&larr; Back to Hotels</a>
+        <a href="booking-history.html" class="nav-btn">Booking History</a>
+    </div>
+
+    <div class="hotel-details-container">
+        <h1 id="hotel-name"></h1>
+        <p id="hotel-location"></p>
+        <p id="hotel-rating"></p>
+        <p id="hotel-price"></p>
+    </div>
+
+    <h2>Available Rooms</h2>
+
+    <div id="rooms-list"></div>
+
+    <!-- Booking Modal -->
+    <div id="booking-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="booking-room-title">Book Room</h2>
+            <p id="booking-room-price"></p>
+
+            <form id="booking-form">
+                <div class="form-group">
+                    <label for="check-in-date">Check-in Date:</label>
+                    <input type="date" id="check-in-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="check-out-date">Check-out Date:</label>
+                    <input type="date" id="check-out-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="guests-count">Number of Guests:</label>
+                    <input type="number" id="guests-count" min="1" value="1" required>
+                </div>
+
+                <p id="booking-summary" class="booking-summary"></p>
+                <p id="booking-error" class="error-message"></p>
+
+                <div class="form-actions">
+                    <button type="submit" id="confirm-booking-btn" class="btn-primary">Book Now</button>
+                    <button type="button" id="cancel-booking-btn" class="btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div id="confirmation-modal" class="modal hidden">
+        <div class="modal-content confirmation-content">
+            <h2>Booking Confirmed</h2>
+            <div id="confirmation-details"></div>
+            <button type="button" id="close-confirmation-btn" class="btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Hotel Details JavaScript -->
+    <script type="module" src="../js/hotelDetails.js"></script>
+
+</body>
+</html>

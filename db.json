@@ -1,0 +1,177 @@
+{
+  "hotels": [
+    {
+      "id": "1",
+      "name": "Grand Palace Hotel",
+      "location": "Vijayawada",
+      "rating": 4.5,
+      "price": 3550,
+      "image": "https://placehold.co/600x400?text=Grand+Palace+Hotel",
+      "amenities": [
+        "Free Wi-Fi",
+        "Swimming Pool",
+        "Spa",
+        "Restaurant"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Royal Orchid Residency",
+      "location": "Hyderabad",
+      "rating": 4.2,
+      "price": 2800,
+      "image": "https://placehold.co/600x400?text=Royal+Orchid+Residency",
+      "amenities": [
+        "Free Wi-Fi",
+        "Swimming Pool",
+        "Spa",
+        "Restaurant"
+      ]
+    },
+    {
+      "id": "3",
+      "name": "Ocean View Resort",
+      "location": "Visakhapatnam",
+      "rating": 4.7,
+      "price": 4500,
+      "image": "https://placehold.co/600x400?text=Ocean+View+Resort",
+      "amenities": [
+        "Free Wi-Fi",
+        "Swimming Pool",
+        "Spa",
+        "Restaurant"
+      ]
+    },
+    {
+      "id": "4",
+      "name": "City Comfort Inn",
+      "location": "Chennai",
+      "rating": 3.9,
+      "price": 2200,
+      "image": "https://placehold.co/600x400?text=City+Comfort+Inn",
+      "amenities": [
+        "Free Wi-Fi",
+        "Restaurant"
+      ]
+    }
+  ],
+  "rooms": [
+    {
+      "id": "1",
+      "hotelId": 1,
+      "roomNumber": 101,
+      "roomType": "Deluxe",
+      "price": 3500,
+      "status": "Booked"
+    },
+    {
+      "id": "2",
+      "hotelId": 1,
+      "roomNumber": 102,
+      "roomType": "Deluxe",
+      "price": 3500,
+      "status": "Available"
+    },
+    {
+      "id": "3",
+      "hotelId": 1,
+      "roomNumber": 103,
+      "roomType": "Suite",
+      "price": 5000,
+      "status": "Available"
+    },
+    {
+      "id": "4",
+      "hotelId": 1,
+      "roomNumber": 104,
+      "roomType": "Standard",
+      "price": 2500,
+      "status": "Available"
+    },
+    {
+      "id": "5",
+      "hotelId": 2,
+      "roomNumber": 201,
+      "roomType": "Deluxe",
+      "price": 2800,
+      "status": "Available"
+    },
+    {
+      "id": "6",
+      "hotelId": 2,
+      "roomNumber": 202,
+      "roomType": "Suite",
+      "price": 4000,
+      "status": "Available"
+    },
+    {
+      "id": "7",
+      "hotelId": 3,
+      "roomNumber": 301,
+      "roomType": "Deluxe",
+      "price": 4500,
+      "status": "Available"
+    },
+    {
+      "id": "8",
+      "hotelId": 3,
+      "roomNumber": 302,
+      "roomType": "Suite",
+      "price": 6000,
+      "status": "Available"
+    },
+    {
+      "id": "9",
+      "hotelId": 4,
+      "roomNumber": 401,
+      "roomType": "Standard",
+      "price": 2200,
+      "status": "Available"
+    },
+    {
+      "id": "10",
+      "hotelId": 4,
+      "roomNumber": 402,
+      "roomType": "Deluxe",
+      "price": 3000,
+      "status": "Available"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "name": "Tukito Zenx",
+      "email": "thatikondakedhar09@gmail.com"
+    },
+    {
+      "id": "2",
+      "name": "Rahul",
+      "email": "rahul@example.com"
+    }
+  ],
+  "bookings": [
+    {
+      "id": "1",
+      "userId": 1,
+      "hotelId": 1,
+      "roomId": 1,
+      "checkInDate": "2024-09-25",
+      "checkOutDate": "2024-09-27",
+      "guests": 2,
+      "totalAmount": 7000,
+      "status": "Confirmed"
+    },
+    {
+      "userId": 1,
+      "hotelId": 1,
+      "roomId": 2,
+      "checkIn": "2026-10-01",
+      "checkOut": "2026-10-03",
+      "guests": 2,
+      "totalAmount": 7000,
+      "status": "Cancelled",
+      "id": "aRbM_Gdb5zo"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

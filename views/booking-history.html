@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Booking History</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+
+    <a href="index.html" class="back-btn">&larr; Back to Hotels</a>
+
+    <h1>Booking History</h1>
+
+    <div id="booking-list"></div>
+
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancel-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Cancel Booking</h3>
+            <p>Are you sure you want to cancel this booking?</p>
+            <div class="form-actions">
+                <button type="button" id="confirm-cancel-btn" class="btn-danger">Cancel Booking</button>
+                <button type="button" id="keep-booking-btn" class="btn-secondary">Keep Booking</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <!-- Booking History JavaScript -->
+    <script type="module" src="../js/bookingHistory.js"></script>
+
+</body>
+</html>
