@@ -8,9 +8,29 @@ const confirmCancelBtn = document.getElementById("confirm-cancel-btn");
 const keepBookingBtn = document.getElementById("keep-booking-btn");
 
 const CURRENT_USER_ID = 1;
+let currentBookings = [];
 let selectedBooking = null;
 
+// Simple in-memory cache to prevent duplicate requests for same hotel/room
+const hotelCache = new Map();
+const roomCache = new Map();
+
+async function getCachedHotel(hotelId) {
+    if (!hotelCache.has(hotelId)) {
+        hotelCache.set(hotelId, await getHotelById(hotelId));
+    }
+    return hotelCache.get(hotelId);
+}
+
+async function getCachedRoom(roomId) {
+    if (!roomCache.has(roomId)) {
+        roomCache.set(roomId, await getRoomById(roomId));
+    }
+    return roomCache.get(roomId);
+}
+
 function displayBookings(bookings) {
+    currentBookings = bookings;
     bookingList.innerHTML = "";
 
     if (bookings.length === 0) {
@@ -47,24 +67,6 @@ function displayBookings(bookings) {
 
         bookingList.appendChild(card);
     });
-
-    attachCancelEvents(bookings);
-}
-
-function attachCancelEvents(bookings) {
-    const cancelButtons = bookingList.querySelectorAll(".cancel-booking-btn");
-
-    cancelButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const bookingId = button.dataset.bookingId;
-            const found = bookings.find((b) => String(b.id) === String(bookingId));
-
-            if (found) {
-                selectedBooking = found;
-                cancelModal.classList.remove("hidden");
-            }
-        });
-    });
 }
 
 function closeCancelModal() {
@@ -76,11 +78,14 @@ async function handleConfirmCancel() {
     if (!selectedBooking) return;
 
     try {
-        // Step 1: Update booking status to Cancelled
+        // Step 1: Update booking status to Cancelled (preserves booking record in DB)
         await cancelBooking(selectedBooking.id);
 
         // Step 2: Only after booking cancellation succeeds, update room status to Available
         await updateRoomStatus(selectedBooking.roomId, "Available");
+
+        // Invalidate room cache so latest status is fetched
+        roomCache.delete(selectedBooking.roomId);
 
         // Step 3: Close confirmation dialog
         closeCancelModal();
@@ -101,12 +106,12 @@ async function loadBookingHistory() {
         // 1. Fetch current user's bookings
         const bookings = await getBookingsByUserId(CURRENT_USER_ID);
 
-        // 2. Resolve related Hotel and Room data for each booking
+        // 2. Resolve related Hotel and Room data using cache + Promise.all
         const resolvedBookings = await Promise.all(
             bookings.map(async (booking) => {
                 try {
-                    const hotel = await getHotelById(booking.hotelId);
-                    const room = await getRoomById(booking.roomId);
+                    const hotel = await getCachedHotel(booking.hotelId);
+                    const room = await getCachedRoom(booking.roomId);
                     return { ...booking, hotel, room };
                 } catch (err) {
                     console.error("Error resolving details for booking ID:", booking.id, err);
@@ -124,7 +129,21 @@ async function loadBookingHistory() {
     }
 }
 
-// Setup Event Listeners
+// Event Delegation for dynamically rendered Cancel Booking buttons
+bookingList.addEventListener("click", (event) => {
+    const button = event.target.closest(".cancel-booking-btn");
+    if (button) {
+        const bookingId = button.dataset.bookingId;
+        const found = currentBookings.find((b) => String(b.id) === String(bookingId));
+
+        if (found) {
+            selectedBooking = found;
+            cancelModal.classList.remove("hidden");
+        }
+    }
+});
+
+// Setup Modal Event Listeners
 confirmCancelBtn.addEventListener("click", handleConfirmCancel);
 keepBookingBtn.addEventListener("click", closeCancelModal);
 

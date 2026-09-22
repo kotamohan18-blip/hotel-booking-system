@@ -71,23 +71,6 @@ function displayRooms(rooms, selectedHotelId) {
 
         roomsList.appendChild(roomCard);
     });
-
-    attachBookingEvents();
-}
-
-function attachBookingEvents() {
-    const bookButtons = roomsList.querySelectorAll(".book-room-btn:not([disabled])");
-
-    bookButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-            const roomId = button.dataset.roomId;
-            const room = currentRooms.find((r) => String(r.id) === String(roomId));
-
-            if (room) {
-                openBookingForm(room);
-            }
-        });
-    });
 }
 
 function openBookingForm(room) {
@@ -196,6 +179,17 @@ async function refreshRooms() {
 }
 
 // Setup Event Listeners
+roomsList.addEventListener("click", (event) => {
+    const button = event.target.closest(".book-room-btn:not([disabled])");
+    if (button) {
+        const roomId = button.dataset.roomId;
+        const room = currentRooms.find((r) => String(r.id) === String(roomId));
+        if (room) {
+            openBookingForm(room);
+        }
+    }
+});
+
 checkInInput.addEventListener("change", updateBookingCalculation);
 checkOutInput.addEventListener("change", updateBookingCalculation);
 bookingForm.addEventListener("submit", handleBookingSubmit);

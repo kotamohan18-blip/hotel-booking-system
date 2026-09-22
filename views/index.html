@@ -16,6 +16,28 @@
         <a href="booking-history.html" class="nav-btn">Booking History</a>
     </header>
 
+    <!-- Filters Section -->
+    <section class="filter-section">
+        <input 
+            type="text" 
+            id="search-input" 
+            placeholder="Search hotels..." 
+        >
+
+        <select id="location-filter">
+            <option value="">All Locations</option>
+        </select>
+
+        <input 
+            type="number" 
+            id="price-filter" 
+            placeholder="Max Price" 
+            min="0"
+        >
+
+        <button type="button" id="clear-filters-btn" class="btn-secondary">Clear Filters</button>
+    </section>
+
     <div id="hotel-list"></div>
 
     <!-- Axios -->
