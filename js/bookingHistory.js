@@ -50,19 +50,26 @@ function displayBookings(bookings) {
             ? `Room ${booking.room.roomNumber} (${booking.room.roomType})`
             : `Room #${booking.roomId}`;
 
+        const roomImgHtml = booking.room?.image
+            ? `<img src="${booking.room.image}" alt="${roomInfo}" class="booking-card-img">`
+            : "";
+
         card.innerHTML = `
-            <h3>${hotelName}</h3>
-            <p><strong>Room:</strong> ${roomInfo}</p>
-            <p><strong>Check-in:</strong> ${checkIn}</p>
-            <p><strong>Check-out:</strong> ${checkOut}</p>
-            <p><strong>Guests:</strong> ${booking.guests}</p>
-            <p><strong>Total Amount:</strong> ₹${booking.totalAmount}</p>
-            <p><strong>Status:</strong> <span class="booking-status status-${booking.status.toLowerCase()}">${booking.status}</span></p>
-            ${
-                isConfirmed
-                    ? `<button class="cancel-booking-btn btn-danger" data-booking-id="${booking.id}">Cancel Booking</button>`
-                    : ""
-            }
+            ${roomImgHtml}
+            <div class="booking-card-content">
+                <h3>${hotelName}</h3>
+                <p><strong>Room:</strong> ${roomInfo}</p>
+                <p><strong>Check-in:</strong> ${checkIn}</p>
+                <p><strong>Check-out:</strong> ${checkOut}</p>
+                <p><strong>Guests:</strong> ${booking.guests}</p>
+                <p><strong>Total Amount:</strong> ₹${booking.totalAmount}</p>
+                <p><strong>Status:</strong> <span class="booking-status status-${booking.status.toLowerCase()}">${booking.status}</span></p>
+                ${
+                    isConfirmed
+                        ? `<button class="cancel-booking-btn btn-danger" data-booking-id="${booking.id}">Cancel Booking</button>`
+                        : ""
+                }
+            </div>
         `;
 
         bookingList.appendChild(card);

@@ -4,6 +4,7 @@ import { createBooking } from "./service/bookingService.js";
 import { validateBooking, calculateNights } from "../exception/validationException.js";
 
 // DOM Elements - Hotel details
+const hotelImage = document.getElementById("hotel-image");
 const hotelName = document.getElementById("hotel-name");
 const hotelLocation = document.getElementById("hotel-location");
 const hotelRating = document.getElementById("hotel-rating");
@@ -13,6 +14,7 @@ const roomsList = document.getElementById("rooms-list");
 // DOM Elements - Booking modal & form
 const bookingModal = document.getElementById("booking-modal");
 const bookingForm = document.getElementById("booking-form");
+const bookingRoomImage = document.getElementById("booking-room-image");
 const bookingRoomTitle = document.getElementById("booking-room-title");
 const bookingRoomPrice = document.getElementById("booking-room-price");
 const checkInInput = document.getElementById("check-in-date");
@@ -33,6 +35,11 @@ let currentRooms = [];
 let selectedRoom = null;
 
 function displayHotelDetails(hotel) {
+    if (hotel.image && hotelImage) {
+        hotelImage.src = hotel.image;
+        hotelImage.alt = hotel.name;
+        hotelImage.style.display = "block";
+    }
     hotelName.textContent = hotel.name;
     hotelLocation.textContent = hotel.location;
     hotelRating.textContent = `Rating: ⭐ ${hotel.rating}`;
@@ -56,17 +63,23 @@ function displayRooms(rooms, selectedHotelId) {
         roomCard.className = "room-card";
 
         const isAvailable = room.status.toLowerCase() === "available";
+        const roomImgHtml = room.image
+            ? `<img src="${room.image}" alt="Room ${room.roomNumber} - ${room.roomType}" class="room-card-img">`
+            : "";
 
         roomCard.innerHTML = `
-            <h3>Room ${room.roomNumber}</h3>
-            <p>${room.roomType}</p>
-            <p>₹${room.price} per night</p>
-            <p class="room-status status-${room.status.toLowerCase()}">${room.status}</p>
-            ${
-                isAvailable
-                    ? `<button class="book-room-btn" data-room-id="${room.id}">Book Room</button>`
-                    : `<button class="book-room-btn disabled" disabled>Booked</button>`
-            }
+            ${roomImgHtml}
+            <div class="room-card-content">
+                <h3>Room ${room.roomNumber}</h3>
+                <p><strong>Type:</strong> ${room.roomType}</p>
+                <p><strong>Price:</strong> ₹${room.price} per night</p>
+                <p class="room-status status-${room.status.toLowerCase()}">${room.status}</p>
+                ${
+                    isAvailable
+                        ? `<button class="book-room-btn" data-room-id="${room.id}">Book Room</button>`
+                        : `<button class="book-room-btn disabled" disabled>Booked</button>`
+                }
+            </div>
         `;
 
         roomsList.appendChild(roomCard);
@@ -75,6 +88,13 @@ function displayRooms(rooms, selectedHotelId) {
 
 function openBookingForm(room) {
     selectedRoom = room;
+    if (room.image && bookingRoomImage) {
+        bookingRoomImage.src = room.image;
+        bookingRoomImage.alt = `Room ${room.roomNumber}`;
+        bookingRoomImage.style.display = "block";
+    } else if (bookingRoomImage) {
+        bookingRoomImage.style.display = "none";
+    }
     bookingRoomTitle.textContent = `Book Room ${room.roomNumber} (${room.roomType})`;
     bookingRoomPrice.textContent = `Price: ₹${room.price} per night`;
     bookingForm.reset();
@@ -86,6 +106,9 @@ function openBookingForm(room) {
 
 function closeBookingForm() {
     bookingModal.classList.add("hidden");
+    if (bookingRoomImage) {
+        bookingRoomImage.style.display = "none";
+    }
     selectedRoom = null;
 }
 
